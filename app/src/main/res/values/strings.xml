@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Bai5</string>
+    <!-- Main Activity -->
+    <string name="btnAdd">Add</string>
+    <string name="btnSwitch">Switch</string>
+    <!-- Dialog Contact Repair-->
+    <string name="contactName">Contact Name</string>
+    <string name="contactNumber">Contact Number</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnSave">Save</string>
+    <!-- Dialog Contact New -->
+    <!--
+    <string name="contactName">Contact Name</string>
+    <string name="contactNumber">Contact Number</string>
+    <string name="btnSave">Save</string>
+    -->
+    <string name="btnClose">Close</string>
+</resources>
