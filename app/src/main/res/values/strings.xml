@@ -3,6 +3,10 @@
     <!-- Main Activity -->
     <string name="btnAdd">Add</string>
     <string name="btnSwitch">Switch</string>
+    <string name="toastName">Không được để trống name</string>
+    <string name="toastNumber">Không được để trống number</string>
+    <string name="toastDone">Thêm thành công</string>
+
     <!-- Dialog Contact Repair-->
     <string name="contactName">Contact Name</string>
     <string name="contactNumber">Contact Number</string>
@@ -15,4 +19,7 @@
     <string name="btnSave">Save</string>
     -->
     <string name="btnClose">Close</string>
+    <!-- ContactAdapter -->
+    <string name="toastSave">Sửa thành công</string>
+    <string name="toastDelete">Xóa thành công</string>
 </resources>

@@ -18,11 +18,9 @@ import com.example.vanluc.bai5.model.Contact;
 
 import java.util.ArrayList;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> implements View.OnLongClickListener
-{
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> implements View.OnLongClickListener {
     ArrayList<Contact> dataContact;
     Context context;
-
 
 
     public ContactAdapter(ArrayList<Contact> dataContact, Context context) {
@@ -34,7 +32,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.item_recyclerview,parent,false);
+        View itemView = inflater.inflate(R.layout.item_recyclerview, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -47,8 +45,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        if(dataContact.size() == 0)
-        {
+        if (dataContact.size() == 0) {
             return 0;
         }
         return dataContact.size();
@@ -60,9 +57,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return true;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView tv_Name,tv_Number;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tv_Name, tv_Number;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -83,16 +79,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     btn_Save.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(et_Name.getText().toString().isEmpty() == true)
-                            {
-                                Toast.makeText(context, "Không được để trống name", Toast.LENGTH_SHORT).show();
-                            } else if(et_Number.getText().toString().isEmpty() == true)
-                            {
-                                Toast.makeText(context, "Không được để trống number", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                updateItem(getAdapterPosition(), et_Name.getText().toString(), et_Number.getText().toString());
-                                Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                            if (et_Name.getText().toString().isEmpty() == true) {
+                                Toast.makeText(context, itemView.getResources().getString(R.string.toastName), Toast.LENGTH_SHORT).show();
+                            } else if (et_Number.getText().toString().isEmpty() == true) {
+                                Toast.makeText(context, itemView.getResources().getString(R.string.toastNumber), Toast.LENGTH_SHORT).show();
+                            } else {
+                                int id = MainActivity.listContact.get(getAdapterPosition()).getID();
+                                updateItem(id, et_Name.getText().toString(), et_Number.getText().toString());
+                                Toast.makeText(context, itemView.getResources().getString(R.string.toastSave), Toast.LENGTH_SHORT).show();
                                 dig_ContactRepair.dismiss();
                             }
                         }
@@ -100,9 +94,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     btn_Delete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            removeItem(getAdapterPosition());
+                            removeItem(MainActivity.listContact.get(getAdapterPosition()).getID());
                             dig_ContactRepair.dismiss();
-                            Toast.makeText(context, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, itemView.getResources().getString(R.string.toastDelete), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -111,16 +105,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
     }
 
-    private void removeItem(int position) {
-       dataContact.remove(position);
-       notifyDataSetChanged();
+    private void removeItem(int id) {
+        MainActivity.databaseContact.queryData("DELETE FROM CONTACTS WHERE ID = " + id);
+        MainActivity.getDataFromSQLite();
 
     }
-    private void updateItem(int position,String name,String number)
-    {
-        Contact data = new Contact(name,number);
-        dataContact.set(position,data);
-        notifyDataSetChanged();
+
+    private void updateItem(int id, String name, String number) {
+        MainActivity.databaseContact.queryData("UPDATE CONTACTS SET NAME = '" + name + "' ," +
+                " NUMBER = '" + number + "'" +
+                "WHERE ID =" + id);
+        MainActivity.getDataFromSQLite();
     }
 
 }
